@@ -7,7 +7,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
 import { WidgetModule } from './components/Widget/widget.module';
 import { WidgetsService } from './services/widgets.service';
-import { Widget } from './types/widget';
+import { NewWidget, Widget } from './types/widget';
 
 @Component({
   selector: 'my-app',
@@ -26,18 +26,7 @@ import { Widget } from './types/widget';
 export class AppComponent implements OnInit {
   count: number = 0;
   total_price: number = 0;
-  private _widgets: Widget[] = [];
-  get widgets(): Widget[] {
-    return this._widgets;
-  }
-
-  set widgets(value: Widget[]) {
-    if (value !== this._widgets) {
-      this._widgets = value;
-      this.calcCount();
-      this.calcTotalPrice();
-    }
-  }
+  widgets: Widget[] = [];
 
   constructor(private widgetsService: WidgetsService) {}
 
@@ -47,15 +36,18 @@ export class AppComponent implements OnInit {
 
   listWidgets() {
     this.widgetsService.listWidgets().subscribe((response) => {
-      console.log(typeof response);
+      this.widgets = [];
       Object.keys(response).forEach((key) => {
         this.widgets.push(response[key] as Widget);
       });
+
+      this.calcCount();
+      this.calcTotalPrice();
     });
   }
 
   calcCount() {
-    this.count++;
+    this.count = this.widgets.length;
   }
 
   calcTotalPrice() {
@@ -72,17 +64,24 @@ export class AppComponent implements OnInit {
     const randomPrice: number = Math.floor(Math.random() * 100) + 1;
     const randomSale: boolean = Math.random() < 0.5;
 
-    let temp: Widget = {
+    let temp: NewWidget = {
       name: `Widget ${Math.floor(Math.random() * 10)}`,
       description: `This is a random widget with ${randomColor} color`,
       price: randomPrice,
       color: randomColor,
       sale: randomSale,
-      id: '1',
     };
 
-    this.widgets.push(temp);
+    this.widgetsService.addWidget(temp).subscribe((response) => {
+      this.listWidgets();
+    });
   }
 
-  onDelete(event: Event) {}
+  onDelete(id: string) {
+    console.log(id);
+    this.widgetsService.deleteWidget(id).subscribe((response) => {
+      // this.widgets = this.widgets.filter((item) => item.id !== id);
+      this.listWidgets();
+    });
+  }
 }

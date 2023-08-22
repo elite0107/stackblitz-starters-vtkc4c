@@ -1,4 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpResponse,
+  HttpResponseBase,
+} from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { map, tap } from 'rxjs/operators';
 import { NewWidget, Widget } from '../types/widget';
@@ -19,8 +23,15 @@ export class WidgetsService {
   }
 
   deleteWidget(id: string) {
-    return this.http.delete(
+    return this.http.delete<HttpResponseBase>(
       `https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets/${id}`
+    );
+  }
+
+  addWidget(data: NewWidget) {
+    return this.http.post<NewWidget>(
+      `https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets/`,
+      data
     );
   }
 }

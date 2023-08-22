@@ -14,6 +14,6 @@ export class WidgetComponent implements OnInit {
   ngOnInit() {}
 
   onClick() {
-    this.deleteClick.emit();
+    this.deleteClick.emit(this.widget.id);
   }
 }
