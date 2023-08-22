@@ -12,6 +12,6 @@
 
 <div class="flex flex-wrap justify-center">
   <div *ngFor="let widget of widgets" class="mx-3 mb-3">
-    <app-widget [widget]="widget"></app-widget>
+    <app-widget [widget]="widget" (deleteClick)="onDelete(event)"></app-widget>
   </div>
 </div>

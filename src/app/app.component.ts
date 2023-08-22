@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,7 +8,6 @@ import { RouterModule } from '@angular/router';
 import { WidgetModule } from './components/Widget/widget.module';
 import { WidgetsService } from './services/widgets.service';
 import { Widget } from './types/widget';
-import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'my-app',
@@ -26,10 +26,43 @@ import { v4 as uuid } from 'uuid';
 export class AppComponent implements OnInit {
   count: number = 0;
   total_price: number = 0;
-  widgets: Widget[] = [];
+  private _widgets: Widget[] = [];
+  get widgets(): Widget[] {
+    return this._widgets;
+  }
+
+  set widgets(value: Widget[]) {
+    if (value !== this._widgets) {
+      this._widgets = value;
+      this.calcCount();
+      this.calcTotalPrice();
+    }
+  }
+
   constructor(private widgetsService: WidgetsService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.listWidgets();
+  }
+
+  listWidgets() {
+    this.widgetsService.listWidgets().subscribe((response) => {
+      console.log(typeof response);
+      Object.keys(response).forEach((key) => {
+        this.widgets.push(response[key] as Widget);
+      });
+    });
+  }
+
+  calcCount() {
+    this.count++;
+  }
+
+  calcTotalPrice() {
+    this.total_price = this.widgets.reduce((sum, widget) => {
+      return sum + widget.price;
+    }, 0);
+  }
 
   onAdd() {
     // produce a random card
@@ -45,17 +78,13 @@ export class AppComponent implements OnInit {
       price: randomPrice,
       color: randomColor,
       sale: randomSale,
-      id: uuid(),
+      id: '1',
     };
 
     this.widgets.push(temp);
+  }
 
-    // calcualte count
-    this.count++;
-
-    // calculate total price
-    this.total_price = this.widgets.reduce((sum, widget) => {
-      return sum + widget.price;
-    }, 0);
+  onDelete(event: Event) {
+    console.log(event);
   }
 }

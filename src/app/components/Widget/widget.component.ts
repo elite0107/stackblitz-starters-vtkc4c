@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Widget } from '../../types/widget';
 
 @Component({
@@ -8,7 +8,12 @@ import { Widget } from '../../types/widget';
 })
 export class WidgetComponent implements OnInit {
   @Input() widget!: Widget;
-  constructor() {}
+  @Output() deleteClick = new EventEmitter<string>();
 
+  constructor() {}
   ngOnInit() {}
+
+  onClick() {
+    this.deleteClick.emit();
+  }
 }

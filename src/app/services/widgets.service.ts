@@ -4,16 +4,23 @@ import { map, tap } from 'rxjs/operators';
 import { NewWidget, Widget } from '../types/widget';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WidgetsService {
-
-  WIDGETS_URI = 'https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets';
+  WIDGETS_URI =
+    'https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets';
 
   // delete widget URI is DELETE https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets/<ID>
 
-  
-  constructor() { }
+  constructor(private http: HttpClient) {}
 
+  listWidgets() {
+    return this.http.get<{ [key: string]: Widget }>(this.WIDGETS_URI);
+  }
 
+  deleteWidget(id: string) {
+    return this.http.delete(
+      `https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets/${id}`
+    );
+  }
 }
