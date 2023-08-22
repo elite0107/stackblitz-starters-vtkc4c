@@ -9,3 +9,5 @@
     <mat-icon (click)="onAdd()">add</mat-icon>
   </button>
 </div>
+
+<app-widget *ngFor="widget; in: widgets" widget="widget"></app-widget>

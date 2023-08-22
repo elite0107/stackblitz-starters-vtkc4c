@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NewWidget, Widget } from 'src/app/types/widget';
+import { Widget } from 'src/app/types/widget';
 
 @Component({
   selector: 'app-widget',
@@ -7,7 +7,7 @@ import { NewWidget, Widget } from 'src/app/types/widget';
   styleUrls: ['./widget.component.css'],
 })
 export class WidgetComponent implements OnInit {
-  @Input() data?: Widget | NewWidget;
+  @Input() data?: Widget;
   constructor() {}
 
   ngOnInit() {}
