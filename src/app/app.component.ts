@@ -84,7 +84,5 @@ export class AppComponent implements OnInit {
     this.widgets.push(temp);
   }
 
-  onDelete(event: Event) {
-    console.log(event);
-  }
+  onDelete(event: Event) {}
 }
