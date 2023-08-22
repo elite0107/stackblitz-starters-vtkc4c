@@ -8,12 +8,12 @@ import { Widget } from '../../types/widget';
 })
 export class WidgetComponent implements OnInit {
   @Input() widget!: Widget;
-  @Output() deleteClick = new EventEmitter<string>();
+  @Output() deleteHandler = new EventEmitter<string>();
 
   constructor() {}
   ngOnInit() {}
 
   onClick() {
-    this.deleteClick.emit(this.widget.id);
+    this.deleteHandler.emit(this.widget.id);
   }
 }

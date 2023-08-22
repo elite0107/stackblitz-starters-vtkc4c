@@ -24,14 +24,11 @@ import { NewWidget, Widget } from './types/widget';
   providers: [CurrencyPipe],
 })
 export class AppComponent implements OnInit {
-  count: number = 0;
+  widgetsCount: number = 0;
   total_price: number = 0;
   widgets: Widget[] = [];
 
-  constructor(
-    private widgetsService: WidgetsService,
-    private currencyPipe: CurrencyPipe
-  ) {}
+  constructor(private widgetsService: WidgetsService) {}
 
   ngOnInit() {
     this.listWidgets();
@@ -44,13 +41,13 @@ export class AppComponent implements OnInit {
         this.widgets.push(response[key] as Widget);
       });
 
-      this.calcCount();
+      this.getWidgetsCount();
       this.calcTotalPrice();
     });
   }
 
-  calcCount() {
-    this.count = this.widgets.length;
+  getWidgetsCount() {
+    this.widgetsCount = this.widgets.length;
   }
 
   calcTotalPrice() {

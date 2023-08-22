@@ -4,7 +4,7 @@
 
 <div class="p-3 flex items-center">
   <span class="mr-3"
-    >Widgets: <b>{{ count }}</b></span
+    >Widgets: <b>{{ widgetsCount }}</b></span
   >
   <span
     >Total Price: <b>{{ total_price | currency }}</b></span
@@ -16,6 +16,9 @@
 
 <div class="flex flex-wrap justify-center">
   <div *ngFor="let widget of widgets" class="mx-3 mb-3">
-    <app-widget [widget]="widget" (deleteClick)="onDelete($event)"></app-widget>
+    <app-widget
+      [widget]="widget"
+      (deleteHandler)="onDelete($event)"
+    ></app-widget>
   </div>
 </div>
