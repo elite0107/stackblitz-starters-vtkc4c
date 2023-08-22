@@ -4,6 +4,7 @@ import {
   HttpResponseBase,
 } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { NewWidget, Widget } from '../types/widget';
 
@@ -23,7 +24,7 @@ export class WidgetsService {
   }
 
   deleteWidget(id: string) {
-    return this.http.delete<HttpResponseBase>(
+    return this.http.delete(
       `https://4tng5yf0o6.execute-api.us-east-1.amazonaws.com/widgets/${id}`
     );
   }

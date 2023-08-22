@@ -1,3 +1,3 @@
-.mdc-text-field {
-  background-color: white;
+::ng-deep .mdc-text-field {
+  background-color: white !important;
 }

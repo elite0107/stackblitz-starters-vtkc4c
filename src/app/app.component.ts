@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { HttpResponse } from '@angular/common/http';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,13 +21,17 @@ import { NewWidget, Widget } from './types/widget';
     MatIconModule,
     WidgetModule,
   ],
+  providers: [CurrencyPipe],
 })
 export class AppComponent implements OnInit {
   count: number = 0;
   total_price: number = 0;
   widgets: Widget[] = [];
 
-  constructor(private widgetsService: WidgetsService) {}
+  constructor(
+    private widgetsService: WidgetsService,
+    private currencyPipe: CurrencyPipe
+  ) {}
 
   ngOnInit() {
     this.listWidgets();
@@ -61,7 +64,7 @@ export class AppComponent implements OnInit {
     const colors: Array<'RED' | 'BLUE' | 'GREEN'> = ['RED', 'BLUE', 'GREEN'];
     const randomColor: 'RED' | 'BLUE' | 'GREEN' =
       colors[Math.floor(Math.random() * colors.length)];
-    const randomPrice: number = Math.floor(Math.random() * 100) + 1;
+    const randomPrice: number = Math.floor(Math.random() * 1000 + 1);
     const randomSale: boolean = Math.random() < 0.5;
 
     let temp: NewWidget = {
@@ -78,9 +81,7 @@ export class AppComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    console.log(id);
     this.widgetsService.deleteWidget(id).subscribe((response) => {
-      // this.widgets = this.widgets.filter((item) => item.id !== id);
       this.listWidgets();
     });
   }

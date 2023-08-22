@@ -3,8 +3,12 @@
 </mat-toolbar>
 
 <div class="p-3 flex items-center">
-  <span class="mr-3">Widgets: {{ count }}</span>
-  <span>Total Price: {{ total_price }}</span>
+  <span class="mr-3"
+    >Widgets: <b>{{ count }}</b></span
+  >
+  <span
+    >Total Price: <b>{{ total_price | currency }}</b></span
+  >
   <button mat-mini-fab class="ml-auto" (click)="onAdd()">
     <mat-icon>add</mat-icon>
   </button>
